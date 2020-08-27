@@ -1,44 +1,47 @@
-const INITIAL_STATE = {
+const INITIAL_STORE = {
     form: {
-        poster: "",
-        author: "",
-        skillLevel: "",
-        title: "",
-        categories: "",
-        link: "",
-        resourceType: "",
-        comments: [],
-        likes: ""
+      resourceAuthor: '',
+      authorSkillLevel: '',
+      cohort: '',
+      title: '',
+      categories: '',
+      summary: '',
+      link: '',
+      resourceType: '',
+      datePublished: '',
+      videoLength: '',
+      timeToComplete: '',
     },
     loading: false,
-    errors: {}
-}
-
-export default ( state = INITIAL_STATE, action) => {
+    errors: {},
+  };
+  export default (store = INITIAL_STORE, action) => {
     switch (action.type) {
-        case "UPDATE_QUERY":
-            return {
-                ...state,
-                form: {
-                    ...state.form,
-                    [action.payload.field]: action.payload.value,
-                },
-            };
-        case "SUBMIT_POST":
-            return{
-                ...state,
-                errors: {},
-                loading: true
-            }
-        case "SUBMIT_POST_SUCCESS":
-            return {...INITIAL_STATE};
-        case "SUBMIT_POST_FAIL":
-            return {
-            ...state,
-            errors: action.payload,
-            loading: false
+      case UPDATE_FORM:
+        return {
+          ...store,
+          form: {
+            ...store.form,
+            [action.payload.field]: action.payload.value,
+          },
         };
-        default:
-            return state;
+      case SUMBIT_FORM:
+        return {
+          ...store,
+          loading: true,
+          errors: {},
+        };
+      case FAILURE_FORM:
+        return {
+          ...store,
+          loading: false,
+          errors: action.payload,
+        };
+      case SUCCESS_FORM:
+        return {
+          ...INITIAL_STORE,
+        };
+      default:
+        return store;
     }
-};
+  };
